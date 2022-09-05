@@ -144,7 +144,7 @@ To manually connect to the database, you will need software compatible with Post
 ## Architecture Diagrams
 Your architecture diagram should focus on the services and how they talk to one another. For our project, we want the diagram in a `.png` format. Some popular free software and tools to create architecture diagrams:
 1. [Lucidchart](https://www.lucidchart.com/pages/)
-2. [Google Docs](docs.google.com) Drawings (In a Google Doc, _Insert_ - _Drawing_ - _+ New_)
+2. [Google Docs](https://docs.google.com) Drawings (In a Google Doc, _Insert_ - _Drawing_ - _+ New_)
 3. [Diagrams.net](https://app.diagrams.net/)
 
 ## Tips
