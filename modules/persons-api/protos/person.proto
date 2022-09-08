@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+message Person {
+  int32 id = 1;
+  string first_name = 2;
+  string last_name = 3;
+  string company_name = 4;
+}
+
+message PersonRequest {
+  int32 id = 1;
+}
+
+message People {
+  repeated Person persons = 1;
+}
+
+service PersonService {
+  rpc GetPerson (PersonRequest) returns (Person) {}
+  rpc CreatePerson (Person) returns (Person) {}
+  rpc ListPersons (google.protobuf.Empty) returns (People) {}
+}

@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+data:
+  PERSONS_SERVICE_HOST: "udaconnect-persons-service"
+  PERSONS_SERVICE_PORT: "50051"
+metadata:
+  name: service-env

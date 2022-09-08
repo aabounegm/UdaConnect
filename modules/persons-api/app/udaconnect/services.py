@@ -1,31 +1,46 @@
+import os
 import logging
 from typing import Dict, List
 
-from app import db
-from app.udaconnect.models import Person
+import grpc
+from google.protobuf import json_format
+from google.protobuf.empty_pb2 import Empty
+
+from person_pb2_grpc import PersonServiceStub
+from person_pb2 import (
+    Person,
+    PersonRequest,
+    People,
+)
 
 logging.basicConfig(level=logging.WARNING)
 logger = logging.getLogger("udaconnect-api")
 
+SERVICE_HOST = os.environ["GRPC_HOST"]
+SERVICE_PORT = os.environ["GRPC_PORT"]
+SERVICE_URL = f"{SERVICE_HOST}:{SERVICE_PORT}"
 
 class PersonService:
     @staticmethod
-    def create(person: Dict) -> Person:
-        new_person = Person()
-        new_person.first_name = person["first_name"]
-        new_person.last_name = person["last_name"]
-        new_person.company_name = person["company_name"]
-
-        db.session.add(new_person)
-        db.session.commit()
-
-        return new_person
+    def create(person: Dict) -> Dict:
+        with grpc.insecure_channel(SERVICE_URL) as channel:
+            stub = PersonServiceStub(channel)
+            new_person: Person = stub.CreatePerson(json_format.ParseDict(person, Person()))
+            return json_format.MessageToDict(new_person, preserving_proto_field_name=True)
 
     @staticmethod
-    def retrieve(person_id: int) -> Person:
-        person = db.session.query(Person).get(person_id)
-        return person
+    def retrieve(person_id: int) -> Dict:
+        with grpc.insecure_channel(SERVICE_URL) as channel:
+            stub = PersonServiceStub(channel)
+            person: Person = stub.GetPerson(PersonRequest(id=person_id))
+            return json_format.MessageToDict(person, preserving_proto_field_name=True)
 
     @staticmethod
-    def retrieve_all() -> List[Person]:
-        return db.session.query(Person).all()
+    def retrieve_all() -> List[Dict]:
+        with grpc.insecure_channel(SERVICE_URL) as channel:
+            stub = PersonServiceStub(channel)
+            people: People = stub.ListPersons(Empty())
+            return [
+                json_format.MessageToDict(person, preserving_proto_field_name=True)
+                for person in people.persons
+            ]

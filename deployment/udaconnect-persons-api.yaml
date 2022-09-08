@@ -31,6 +31,58 @@ spec:
         image: aabounegm/udaconnect-persons-api:latest
         imagePullPolicy: IfNotPresent
         env:
+        - name: GRPC_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: service-env
+              key: PERSONS_SERVICE_HOST
+        - name: GRPC_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: service-env
+              key: PERSONS_SERVICE_PORT
+        resources:
+          limits:
+            cpu: 250m
+            memory: 256Mi
+          requests:
+            cpu: 125m
+            memory: 128Mi
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service: udaconnect-persons-service
+  name: udaconnect-persons-service
+spec:
+  ports:
+  - port: 50051
+  selector:
+    service: udaconnect-persons-service
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: udaconnect-persons-service
+  name: udaconnect-persons-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: udaconnect-persons-service
+  template:
+    metadata:
+      labels:
+        service: udaconnect-persons-service
+    spec:
+      containers:
+      - name: udaconnect-persons-service
+        image: aabounegm/udaconnect-persons-service:latest
+        imagePullPolicy: IfNotPresent
+        env:
         - name: DB_USERNAME
           valueFrom:
             configMapKeyRef:

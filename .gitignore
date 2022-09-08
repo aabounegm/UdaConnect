@@ -15,6 +15,10 @@ __pycache__/
 # C extensions
 *.so
 
+# Generated files
+*_pb2.py
+*_pb2_grpc.py
+
 # Distribution / packaging
 .Python
 build/
