@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service: udaconnect-swagger
+  name: udaconnect-swagger
+spec:
+  ports:
+  - port: 8080
+  selector:
+    service: udaconnect-swagger
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: udaconnect-swagger
+  name: udaconnect-swagger
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: udaconnect-swagger
+  template:
+    metadata:
+      labels:
+        service: udaconnect-swagger
+    spec:
+      containers:
+      - name: udaconnect-swagger
+        image: aabounegm/udaconnect-swagger:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: BASE_URL
+          value: /api
+        resources:
+          limits:
+            cpu: 100m
+            memory: 128Mi
+          requests:
+            cpu: 50m
+            memory: 64Mi
+      restartPolicy: Always

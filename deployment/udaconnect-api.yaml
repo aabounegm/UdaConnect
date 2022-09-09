@@ -30,6 +30,13 @@ spec:
                 name: udaconnect-persons-api
                 port:
                   number: 5000
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: udaconnect-swagger
+                port:
+                  number: 8080
           - path: /
             pathType: Prefix
             backend:
