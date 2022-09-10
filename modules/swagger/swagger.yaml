@@ -35,6 +35,13 @@ paths:
       operationId: get_location_resource
       tags:
         - UdaConnect
+    delete:
+      responses:
+        '204':
+          description: Deleted successfully
+      operationId: delete_location_resource
+      tags:
+        - UdaConnect
   /api/persons:
     get:
       responses:

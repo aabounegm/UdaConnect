@@ -38,3 +38,8 @@ class LocationService:
         db.session.commit()
 
         return new_location
+
+    @staticmethod
+    def delete(location_id):
+        db.session.query(Location).filter(Location.id == location_id).delete()
+        db.session.commit()

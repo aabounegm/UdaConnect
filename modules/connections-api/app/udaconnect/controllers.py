@@ -22,7 +22,6 @@ api = Namespace("UdaConnect", description="Connections via geolocation.")  # noq
 class ConnectionDataResource(Resource):
     @responds(schema=ConnectionSchema, many=True)
     def get(self, person_id) -> ConnectionSchema:
-        print('Received request!', flush=True)
         start_date: datetime = datetime.strptime(
             request.args["start_date"], DATE_FORMAT
         )

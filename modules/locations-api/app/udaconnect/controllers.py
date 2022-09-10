@@ -28,3 +28,7 @@ class LocationResource(Resource):
     def get(self, location_id) -> Location:
         location: Location = LocationService.retrieve(location_id)
         return location
+
+    def delete(self, location_id):
+        LocationService.delete(location_id)
+        return "", 204
