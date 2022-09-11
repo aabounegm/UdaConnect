@@ -36,9 +36,14 @@ The command will take a while and will leverage VirtualBox to load an [openSUSE]
 ### Steps
 1. `kubectl apply -f deployment/db-configmap.yaml` - Set up environment variables for the pods
 2. `kubectl apply -f deployment/db-secret.yaml` - Set up secrets for the pods
+3. `kubectl apply -f deployment/grpc-configmap.yaml` - Set up environment variables related to the gRPC server
 3. `kubectl apply -f deployment/postgres.yaml` - Set up a Postgres database running PostGIS
-4. `kubectl apply -f deployment/udaconnect-api.yaml` - Set up the service and deployment for the API
+4. `kubectl apply -f deployment/udaconnect-api.yaml` - Set up the service and deployment for the API ingress
 5. `kubectl apply -f deployment/udaconnect-app.yaml` - Set up the service and deployment for the web app
+5. `kubectl apply -f deployment/udaconnect-connections-api.yaml` - Set up the service and deployment for the connections microservice
+5. `kubectl apply -f deployment/udaconnect-locations-api.yaml` - Set up the service and deployment for the locations microservice
+5. `kubectl apply -f deployment/udaconnect-persons-api.yaml` - Set up the service and deployment for the persons microservice
+5. `kubectl apply -f deployment/udaconnect-swagger.yaml` - Set up the service and deployment for the API documentation
 6. `sh scripts/run_db_command.sh <POD_NAME>` - Seed your database against the `postgres` pod. (`kubectl get pods` will give you the `POD_NAME`)
 
 Manually applying each of the individual `yaml` files is cumbersome but going through each step provides some context on the content of the starter project. In practice, we would have reduced the number of steps by running the command against a directory to apply of the contents: `kubectl apply -f deployment/`.
