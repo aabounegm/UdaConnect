@@ -72,7 +72,29 @@ To manually connect to the database, you will need software compatible with Post
 * GUI users will find [pgAdmin](https://www.pgadmin.org/) to be a popular open-source solution.
 
 ## Architecture Diagrams
-Your architecture diagram should focus on the services and how they talk to one another. For our project, we want the diagram in a `.png` format. Some popular free software and tools to create architecture diagrams:
-1. [Lucidchart](https://www.lucidchart.com/pages/)
-2. [Google Docs](https://docs.google.com) Drawings (In a Google Doc, _Insert_ - _Drawing_ - _+ New_)
-3. [Diagrams.net](https://app.diagrams.net/)
+
+The following diagram shows the architecture of the application using UML component diagram notation:
+![Architecture Diagram](./docs/architecture_design.png)
+
+### Frontend
+
+The frontend was left as one module rather than split into micro-frontends because it would be such an overkill for a simple one-page website as this to be divided further and would incur more cost than benefit.
+Additionally, it was added under the same ingress as the API to avoid exposing additional ports and to have it under the same domain and avoid CORS issues.
+
+### APIs
+
+The APIs were split into microservices to allow for easier scaling and to allow for each service to be developed and deployed independently. This also allows for each service to be developed by different teams and to be deployed independently. Three independent modules were identified: persons, locations, and connections.
+
+### Services
+
+The front-facing RESTful API uses gRPC to communicate with the underlying service that handles communcation with the database. This allows for each module to be developed in a language that is more familiar to the developer and to be able to use the language's best practices and libraries. Additionally, gRPC is more efficient than HTTP.
+
+Note: _services_ here denotes modules that handle connections to the database and are not to be confused with Kubernetes services or microservices. Also, the `*_pb2.py` and `*_pb2_grpc.py` files are gitignored because they are generated in a Docker image build step, and it is generally considered a good practice to not push auto-generated files to git.
+
+### Database
+
+The database was not split into more than one because it only contained 2 tables that are linked together. Splitting it would introduce more difficulty in maintaining the database and ensuring consistency with the foreign keys and contraints and would not provide any benefit since Postgres is already highly efficient and scalable.
+
+### Kafka
+
+Acting as a logs aggregator, the Kafka module exposes consumes from a topic to which the services produce logs data. This allows for the logs to be consumed by a separate module that would be responsible for storing the logs and providing a UI to view them.
