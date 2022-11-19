@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+message LocationEvent {
+  int32 user_id = 1;
+  int32 latitude = 2;
+  int32 longitude = 3;
+}
+
+service LocationIngestor {
+  rpc AddLocation (LocationEvent) returns (LocationEvent);
+}
