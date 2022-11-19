@@ -116,4 +116,4 @@ The database was not split into more than one because it only contained 2 tables
 
 ### Kafka
 
-Acting as a logs aggregator, the Kafka module exposes consumes from a topic to which the services produce logs data. This allows for the logs to be consumed by a separate module that would be responsible for storing the logs and providing a UI to view them.
+Acting as a locations ingestion service, the Kafka module manages a topic to which the locations producer (the service exposed via gRPC) produces locations as they arrive from the user, to then be consumed by another module that stores them in the database.
