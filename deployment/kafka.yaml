@@ -52,6 +52,7 @@ metadata:
   labels:
     name: kafka
 spec:
+  clusterIP: 10.96.1.2
   ports:
     - port: 9092
       name: kafka-port
