@@ -95,6 +95,14 @@ To manually connect to the database, you will need software compatible with Post
 The following diagram shows the architecture of the application using UML component diagram notation:
 ![Architecture Diagram](./docs/architecture_design.png)
 
+_Note that the diagram tries to follow the UML Component Diagram notation. The "arrows" do not represent directionality, but rather "interface" provision and consumption._
+
+This architecture design is chosen in order to minimize the cost and development time by dividing the code into multiple small modules, which leads to higher maintainability, meaning that it is easier for new developers to be onboarded or assigned responsibility of a particular module without having to know about the others, thus reducing development time and cost.
+
+Additionally, the services run in containers, making them platform-agnostic so the developers do not need to install a bunch of tools before getting productive. It also makes it easier to deploy the application to a cloud provider, such as AWS, Azure, or GCP.
+
+Lastly, this model allows the application to handle large amounts of incoming data since it is horizontally scalable, meaning that it can be scaled out by adding more instances of the services to handle the increased load, and it has a load balancer to distribute the incoming requests to the services. It also makes use of such technologies as Kafka and gRPC to speed up the communication between services.
+
 ### Frontend
 
 The frontend was left as one module rather than split into micro-frontends because it would be such an overkill for a simple one-page website as this to be divided further and would incur more cost than benefit.
