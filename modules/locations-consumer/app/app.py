@@ -1,5 +1,6 @@
 import os
 import json
+from typing import Dict
 
 from kafka import KafkaConsumer
 from sqlalchemy import create_engine
@@ -20,10 +21,10 @@ SQLALCHEMY_DATABASE_URI = (
 engine = create_engine(SQLALCHEMY_DATABASE_URI, echo=True)
 Session = sessionmaker(bind=engine)
 
-consumer = KafkaConsumer(KAFKA_TOPIC, bootstrap_servers=KAFKA_URL)
+consumer = KafkaConsumer(KAFKA_TOPIC, bootstrap_servers=[KAFKA_URL])
 
 
-def save_to_db(location: dict[str, int]):
+def save_to_db(location: Dict[str, int]):
     session = Session()
 
     session.execute(

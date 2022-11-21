@@ -12,7 +12,7 @@ import location_event_pb2_grpc
 KAFKA_URL = os.environ["KAFKA_URL"]
 KAFKA_TOPIC = os.environ["KAFKA_TOPIC"]
 
-producer = KafkaProducer(bootstrap_servers=KAFKA_URL)
+producer = KafkaProducer(bootstrap_servers=[KAFKA_URL])
 
 
 class LocationsIngester(location_event_pb2_grpc.LocationIngestorServicer):
